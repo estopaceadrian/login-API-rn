@@ -1,12 +1,22 @@
 const express = require('express');
-const cors = require('cors');
+// const cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const accountRouter = require('../app/api/account');
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use((_, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, PATCH, DELETE'
+  );
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use('/account', accountRouter);
 
